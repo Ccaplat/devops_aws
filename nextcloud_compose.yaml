@@ -1,27 +1,28 @@
 version: '2'
 
 volumes:
-  nextcloud:
+  nextclouddb:
   db:
-
+# pulling an creating db container using image maiadb
 services:
-  db:
+  db: # same name db name created on top
     image: mariadb
     restart: always
     volumes:
       - db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD= # make sure you add your password
       - MYSQL_PASSWORD=test
       - MYSQL_DATABASE=test
       - MYSQL_USER=test
-
-  app:
+# image section to use 
+  app: 
     image: nextcloud
     ports:
       - 8080:80
     links:
       - db
-    volumes:
+    volumes: # same as ou volumes names provided on top nextclouddb
+             # Assigning volume to path of nextcloud container in var/www/html
       - nextclouddb:/var/www/html
     restart: always
